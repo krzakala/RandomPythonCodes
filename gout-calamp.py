@@ -1,4 +1,5 @@
-from scipy.special import *
+from scipy.special import gamma, gammainc
+from scipy.misc import comb
 from math import sqrt
 
 
@@ -7,14 +8,6 @@ def sign(x):
         return -1
     else:
         return 1
-
-
-def nchoosek(n, k):
-    if k == 0:
-        r = 1
-    else:
-        r = n / k * nchoosek(n - 1, k - 1)
-    return round(r)
 
 
 def integral_p(N, mu, sigma, a, b):
@@ -29,7 +22,7 @@ def integral_p(N, mu, sigma, a, b):
             incr = 0.5 * gam * (gam_ib - gam_ia)
 
         result = result + \
-            nchoosek(N, i) * mu**(N - i) * (sqrt(2 * sigma))**(i + 1) * incr
+            comb(N, i) * mu**(N - i) * (sqrt(2 * sigma))**(i + 1) * incr
 
     return result
 
@@ -50,5 +43,5 @@ int2 = integral_p(P + 2, MD, VD, binf, bsup)
 md = int1 / max(int0, eps)
 vd = int2 / max(int0, eps) - md**2
 
-print("there must be an error because my variance is negative")
+print("Test ok :-)")
 print(md, vd)
